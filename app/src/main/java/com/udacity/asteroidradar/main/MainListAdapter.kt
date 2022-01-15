@@ -6,43 +6,42 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.udacity.asteroidradar.Asteroid
-import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.MainListAsteroidItemBinding
 
-class MainListAdapter() : ListAdapter<Asteroid, MainListAdapter.ViewHolder>(MainListDiffCallback()) {
+class MainListAdapter(private val onClickListener: OnClickListener) :
+    ListAdapter<Asteroid, MainListAdapter.ViewHolder>(MainListDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-
+        holder.itemView.setOnClickListener {
+            onClickListener.onClick(item)
+        }
         holder.bind(item)
     }
 
-    class ViewHolder private constructor(val binding: MainListAsteroidItemBinding) :
+    class ViewHolder private constructor(private val binding: MainListAsteroidItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Asteroid) {
-            binding.asteroidDate.text = item.closeApproachDate
-            binding.asteroidName.text = item.codename
-            binding.asteroidStatusIcon.setImageResource(
-                when(item.isPotentiallyHazardous){
-                    true -> R.drawable.ic_status_potentially_hazardous
-                    false -> R.drawable.ic_status_normal
-                }
-            )
-
+            binding.asteroid = item
+            binding.executePendingBindings()
         }
 
 
-        companion object{
+        companion object {
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = MainListAsteroidItemBinding.inflate(layoutInflater, parent, false)
                 return ViewHolder(binding)
             }
         }
+    }
+
+    class OnClickListener(val clickListener: (asteroid: Asteroid) -> Unit) {
+        fun onClick(asteroid: Asteroid) = clickListener(asteroid)
     }
 }
 

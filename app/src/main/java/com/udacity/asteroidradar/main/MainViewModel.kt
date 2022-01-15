@@ -1,5 +1,6 @@
 package com.udacity.asteroidradar.main
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.udacity.asteroidradar.Asteroid
@@ -7,6 +8,11 @@ import com.udacity.asteroidradar.Asteroid
 class MainViewModel : ViewModel() {
 
     var asteroids = MutableLiveData<List<Asteroid>>()
+
+    private val _navigateToAsteroidDetail = MutableLiveData<Asteroid>()
+
+    val navigateToAsteroidDetail: LiveData<Asteroid>
+        get() = _navigateToAsteroidDetail
 
     init {
         asteroids.value = listOf(
@@ -19,5 +25,13 @@ class MainViewModel : ViewModel() {
                 32.1232, 423.23, 6633.32, 32.3, false
             )
         )
+    }
+
+     fun displayAsteroidDetails(asteroid: Asteroid) {
+         _navigateToAsteroidDetail.value = asteroid
+     }
+
+    fun displayAsteroidDetailsComplete(){
+        _navigateToAsteroidDetail.value = null
     }
 }
