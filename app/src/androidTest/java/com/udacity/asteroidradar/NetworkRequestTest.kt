@@ -3,6 +3,7 @@ package com.udacity.asteroidradar
 import android.util.Log
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.udacity.asteroidradar.api.Network
+import com.udacity.asteroidradar.api.getNextWeekDates
 import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
 import junit.framework.TestCase
 import kotlinx.coroutines.runBlocking
@@ -16,15 +17,17 @@ class NetworkRequestTest : TestCase() {
     @Test
     @Throws(Exception::class)
     fun getRequestTest() = runBlocking {
+        val nights: Array<String> = getNextWeekDates()
+
         val response = Network.asteroids.getLatestWeek(
-            "2022-01-16",
-            "2022-01-23",
+            nights[0],
+            nights[1],
             "2JabBjC25TuPzOsfWYLBsxyzv6yIZmOT3WmDgIzn"
         ).await()
 
         val formatted = parseAsteroidsJsonResult(JSONObject(response))
-//        parseAsteroidsJsonResult(response)
+
         Log.d("testING", "Response: $formatted")
-        assertNotNull(response)
+        assertNotNull(response[0])
     }
 }

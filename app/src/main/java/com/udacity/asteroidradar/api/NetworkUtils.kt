@@ -55,3 +55,25 @@ private fun getNextSevenDaysFormattedDates(): ArrayList<String> {
 
     return formattedDateList
 }
+
+//  Method to get start and end dates for the network requests
+fun getNextWeekDates(): Array<String>{
+
+    val calendar = Calendar.getInstance()
+
+    var currentTime = calendar.time
+
+    val dateFormat = SimpleDateFormat("YYYY-MM-dd")
+
+    val startDate = dateFormat.format(currentTime)
+
+    calendar.add(Calendar.DAY_OF_WEEK, 7)
+
+    currentTime = calendar.time
+
+    val endDate = dateFormat.format(currentTime)
+
+    val array = arrayOf<String>(startDate, endDate)
+
+    return array
+}

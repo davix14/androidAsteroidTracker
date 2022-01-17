@@ -22,10 +22,6 @@ interface AsteroidApiService {
     ): Deferred<String>
 }
 
-private val moshi = Moshi.Builder()
-    .add(KotlinJsonAdapterFactory())
-    .build()
-
 object Network {
 
     private val retrofit = Retrofit.Builder()
