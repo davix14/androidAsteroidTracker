@@ -3,6 +3,8 @@ package com.udacity.asteroidradar.api
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.udacity.asteroidradar.Asteroid
+import com.udacity.asteroidradar.Constants
 import kotlinx.coroutines.Deferred
 import org.json.JSONObject
 import retrofit2.Retrofit
@@ -32,4 +34,9 @@ object Network {
 
 
     val asteroids = retrofit.create(AsteroidApiService::class.java)
+
+    suspend fun getLastWeekFormatted(startDate: String, endDate: String): List<Asteroid>{
+        val rawResponse = Network.asteroids.getLatestWeek(startDate, endDate, Constants.API_KEY).await()
+        return parseAsteroidsJsonResult(JSONObject(rawResponse))
+    }
 }

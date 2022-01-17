@@ -14,7 +14,8 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        testInstrumentationRunner 'androidx.support.test.runner.AndroidJUnitRunner'
     }
     buildTypes {
         release {
@@ -66,6 +67,7 @@ dependencies {
 
     implementation "androidx.room:room-runtime:2.2.5"
     kapt "androidx.room:room-compiler:2.2.5"
+    implementation "androidx.room:room-ktx:2.2.5"
 
     implementation "android.arch.work:work-runtime-ktx:1.0.1"
 

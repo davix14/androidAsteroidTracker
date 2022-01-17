@@ -5,13 +5,20 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.udacity.asteroidradar.Asteroid
 
+
+/*@Query("SELECT * FROM databaseasteroids LIMIT 1")
+fun getLatestAsteroids(): LiveData<List<DatabaseAsteroids>>*/
+
 @Dao
 interface AsteroidsDao {
     @Query("SELECT * FROM databaseasteroids")
-    fun getAllAsteroids(): LiveData<List<Asteroid>>
+    fun getAllAsteroids(): LiveData<List<DatabaseAsteroids>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg asteroids: DatabaseAsteroids)
+
+    @Query("DELETE FROM databaseasteroids")
+    suspend fun clear()
 }
 
 
