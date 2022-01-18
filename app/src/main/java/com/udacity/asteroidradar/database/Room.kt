@@ -11,7 +11,7 @@ fun getLatestAsteroids(): LiveData<List<DatabaseAsteroids>>*/
 
 @Dao
 interface AsteroidsDao {
-    @Query("SELECT * FROM databaseasteroids")
+    @Query("SELECT * FROM databaseasteroids ORDER BY closeApproachDate ASC")
     fun getAllAsteroids(): LiveData<List<DatabaseAsteroids>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
