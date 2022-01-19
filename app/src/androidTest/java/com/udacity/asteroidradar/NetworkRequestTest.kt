@@ -16,7 +16,7 @@ class NetworkRequestTest : TestCase() {
 
     @Test
     @Throws(Exception::class)
-    fun getRequestTest() 0= runBlocking {
+    fun getRequestTest() = runBlocking {
         val nights: Array<String> = getNextWeekDates()
 
         val response = Network.asteroids.getLatestWeek(

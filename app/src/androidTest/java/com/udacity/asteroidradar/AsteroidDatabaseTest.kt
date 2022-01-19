@@ -1,15 +1,13 @@
-package com.example.android.trackmysleepquality
+package com.udacity.asteroidradar
 
 import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.database.AsteroidsDao
 import com.udacity.asteroidradar.database.AsteroidsDatabase
 import com.udacity.asteroidradar.database.DatabaseAsteroids
 import junit.framework.TestCase
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertEquals
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
