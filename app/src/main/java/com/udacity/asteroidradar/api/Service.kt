@@ -33,7 +33,7 @@ interface AsteroidApiService {
 object Network {
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("https://api.nasa.gov")
+        .baseUrl(Constants.BASE_URL)
         .addConverterFactory(ScalarsConverterFactory.create())
 //        .addConverterFactory(MoshiConverterFactory.create(moshi))
         .addCallAdapterFactory(CoroutineCallAdapterFactory())

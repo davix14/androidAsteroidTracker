@@ -51,12 +51,14 @@ class AsteroidsRepository(private val AppDatabase: AppDatabase) {
     suspend fun refreshPicOfTheDay() {
         withContext(Dispatchers.IO) {
             var retryCount = 0
+
             for (i in 1..3) {
                 try {
                     if (i > 1) {
                         retryCount++
                     }
                     val pic = Network.getPicOfTheDay()
+                    AppDatabase.picDatabase.clearAllPics()
                     AppDatabase.picDatabase.insert(pic.asDatabseModel())
                     Log.d("debugin", "POSSIBLE SUCCESS?")
                     break
