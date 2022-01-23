@@ -3,7 +3,6 @@ package com.udacity.asteroidradar.main
 import android.app.Application
 import androidx.lifecycle.*
 import com.udacity.asteroidradar.Asteroid
-import com.udacity.asteroidradar.database.AsteroidsDatabase
 import com.udacity.asteroidradar.database.getDatabase
 import com.udacity.asteroidradar.repository.AsteroidsRepository
 import kotlinx.coroutines.launch
@@ -23,10 +22,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     init {
         viewModelScope.launch {
             repository.refreshAsteroids()
+            repository.refreshPicOfTheDay()
         }
     }
 
     val asteroids = repository.asteroids
+    val picOfTheDay = repository.picOfTheDaySrc
 
     fun displayAsteroidDetails(asteroid: Asteroid) {
         _navigateToAsteroidDetail.value = asteroid

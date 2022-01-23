@@ -2,6 +2,7 @@ package com.udacity.asteroidradar.api
 
 import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.Constants
+import com.udacity.asteroidradar.PictureOfDay
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
@@ -33,13 +34,25 @@ fun parseAsteroidsJsonResult(jsonResult: JSONObject): ArrayList<Asteroid> {
             val isPotentiallyHazardous = asteroidJson
                 .getBoolean("is_potentially_hazardous_asteroid")
 
-            val asteroid = Asteroid(id, codename, formattedDate, absoluteMagnitude,
-                estimatedDiameter, relativeVelocity, distanceFromEarth, isPotentiallyHazardous)
+            val asteroid = Asteroid(
+                id, codename, formattedDate, absoluteMagnitude,
+                estimatedDiameter, relativeVelocity, distanceFromEarth, isPotentiallyHazardous
+            )
             asteroidList.add(asteroid)
         }
     }
 
     return asteroidList
+}
+
+//  method to parse pic of the day response
+fun parsePicJsonResponse(jsonResult: JSONObject): PictureOfDay {
+    val mediaType = jsonResult.getString("media_type")
+    val title = jsonResult.getString("title")
+    val url = jsonResult.getString("url")
+    val date = jsonResult.getString("date")
+
+    return PictureOfDay(date, mediaType, title, url)
 }
 
 private fun getNextSevenDaysFormattedDates(): ArrayList<String> {
@@ -57,7 +70,7 @@ private fun getNextSevenDaysFormattedDates(): ArrayList<String> {
 }
 
 //  Method to get start and end dates for the network requests
-fun getNextWeekDates(): Array<String>{
+fun getNextWeekDates(): Array<String> {
 
     val calendar = Calendar.getInstance()
 
@@ -76,4 +89,12 @@ fun getNextWeekDates(): Array<String>{
     val array = arrayOf<String>(startDate, endDate)
 
     return array
+}
+
+fun getCurrentDateFormatted(): String {
+    val currentTime = Calendar.getInstance().time
+
+    val dateFormat = SimpleDateFormat("YYYY-MM-dd")
+
+    return dateFormat.format(currentTime)
 }

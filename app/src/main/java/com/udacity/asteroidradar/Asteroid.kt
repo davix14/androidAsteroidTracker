@@ -10,7 +10,7 @@ data class Asteroid(val id: Long, val codename: String, val closeApproachDate: S
                     val relativeVelocity: Double, val distanceFromEarth: Double,
                     val isPotentiallyHazardous: Boolean) : Parcelable
 
-fun List<Asteroid>.asDomainModel(): Array<DatabaseAsteroids> {
+fun List<Asteroid>.asDatabaseModel(): Array<DatabaseAsteroids> {
     return map {
         DatabaseAsteroids(
             id = it.id,

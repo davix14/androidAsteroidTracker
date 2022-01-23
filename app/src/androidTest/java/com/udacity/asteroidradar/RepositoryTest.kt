@@ -1,7 +1,5 @@
 package com.udacity.asteroidradar
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.observe
 import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -9,7 +7,7 @@ import com.udacity.asteroidradar.api.Network
 import com.udacity.asteroidradar.api.getNextWeekDates
 import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
 import com.udacity.asteroidradar.database.AsteroidsDao
-import com.udacity.asteroidradar.database.AsteroidsDatabase
+import com.udacity.asteroidradar.database.AppDatabase
 import com.udacity.asteroidradar.repository.AsteroidsRepository
 import junit.framework.TestCase
 import kotlinx.coroutines.runBlocking
@@ -25,14 +23,14 @@ import java.lang.Exception
 class RepositoryTest : TestCase() {
 
     private lateinit var dao: AsteroidsDao
-    private lateinit var db: AsteroidsDatabase
+    private lateinit var db: AppDatabase
     private lateinit var repository: AsteroidsRepository
     private lateinit var asteroids: List<Asteroid>
 
     @Before
     fun prep() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
-        db = Room.inMemoryDatabaseBuilder(context, AsteroidsDatabase::class.java)
+        db = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java)
             // Allowing main thread queries, just for testing.
             .allowMainThreadQueries()
             .build()

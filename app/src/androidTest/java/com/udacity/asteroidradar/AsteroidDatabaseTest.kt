@@ -4,7 +4,7 @@ import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.udacity.asteroidradar.database.AsteroidsDao
-import com.udacity.asteroidradar.database.AsteroidsDatabase
+import com.udacity.asteroidradar.database.AppDatabase
 import com.udacity.asteroidradar.database.DatabaseAsteroids
 import junit.framework.TestCase
 import kotlinx.coroutines.runBlocking
@@ -18,14 +18,14 @@ import java.io.IOException
 class AsteroidDatabaseTest: TestCase() {
 
     private lateinit var asteroidDao: AsteroidsDao
-    private lateinit var db: AsteroidsDatabase
+    private lateinit var db: AppDatabase
 
     @Before
     public override fun setUp() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         // Using an in-memory database because the information stored here disappears when the
         // process is killed.
-        db = Room.inMemoryDatabaseBuilder(context, AsteroidsDatabase::class.java)
+        db = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java)
             // Allowing main thread queries, just for testing.
             .allowMainThreadQueries()
             .build()
