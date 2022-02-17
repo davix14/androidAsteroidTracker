@@ -7,6 +7,7 @@ import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.Constants
 import com.udacity.asteroidradar.PictureOfDay
 import kotlinx.coroutines.Deferred
+import okhttp3.OkHttpClient
 import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -19,13 +20,12 @@ interface AsteroidApiService {
     @GET("/neo/rest/v1/feed")
     fun getLatestWeek(
         @Query("start_date") startDate: String,
-        @Query("end_date") endDate: String,
-        @Query("api_key") apiKey: String
+        @Query("end_date") endDate: String
     ): Deferred<String>
 
     //  pic of the day get request
     @GET("/planetary/apod")
-    fun getPicOfTheDay(@Query("api_key") apiKey: String): Deferred<String>
+    fun getPicOfTheDay(): Deferred<String>
 }
 
 //val moshi: Moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
@@ -37,6 +37,18 @@ object Network {
         .addConverterFactory(ScalarsConverterFactory.create())
 //        .addConverterFactory(MoshiConverterFactory.create(moshi))
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
+        .client(
+            OkHttpClient.Builder()
+                .addInterceptor{
+                    val url = it
+                        .request()
+                        .url()
+                        .newBuilder()
+                        .addQueryParameter("api_key", Constants.API_KEY)
+                        .build()
+                    it.proceed(it.request().newBuilder().url(url).build())
+                }.build()
+        )
         .build()
 
 
@@ -44,12 +56,12 @@ object Network {
 
     suspend fun getLastWeekFormatted(startDate: String, endDate: String): List<Asteroid> {
         val rawResponse =
-            asteroids.getLatestWeek(startDate, endDate, Constants.API_KEY).await()
+            asteroids.getLatestWeek(startDate, endDate).await()
         return parseAsteroidsJsonResult(JSONObject(rawResponse))
     }
 
     suspend fun getPicOfTheDay(): PictureOfDay {
-        val rawResponse = asteroids.getPicOfTheDay(Constants.API_KEY).await()
+        val rawResponse = asteroids.getPicOfTheDay().await()
         return parsePicJsonResponse(JSONObject(rawResponse))
     }
 }
